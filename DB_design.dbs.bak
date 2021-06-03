@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Plotly Crypto" id="Project_633" database="Sqlite" >
+	<schema name="Default" >
+		<table name="Coins" prior="Coin" >
+			<column name="ID" type="integer" jt="4" mandatory="y" />
+			<column name="Asset_ID" type="varchar" length="6" jt="12" mandatory="y" />
+			<index name="Pk_Coins_ID" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+			<index name="Unq_Coins_Asset_ID" unique="UNIQUE_KEY" >
+				<column name="Asset_ID" />
+			</index>
+		</table>
+		<table name="Currency" prior="Tbl" >
+			<column name="ID" type="integer" jt="4" mandatory="y" />
+			<column name="CUR_ID" type="varchar" length="6" jt="12" mandatory="y" />
+			<index name="Pk_Currency_ID" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="Tbl" >
+			<column name="ID" type="integer" jt="4" mandatory="y" />
+			<column name="Coin_ID" type="integer" jt="4" mandatory="y" />
+			<column name="Cur_ID" type="integer" jt="4" mandatory="y" />
+			<column name="time_period_start" type="datetime" jt="93" />
+			<column name="time_period_end" type="datetime" jt="93" />
+			<column name="time_open" type="datetime" jt="93" />
+			<column name="time_close" type="datetime" jt="93" />
+			<column name="rate_open" type="double" jt="8" />
+			<column name="rate_high" type="double" jt="8" />
+			<column name="rate_low" type="double" jt="8" />
+			<column name="rate_close" type="double" jt="8" />
+			<index name="Pk_Tbl_ID" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+			<fk name="fk_tbl_coins" to_schema="Default" to_table="Coins" >
+				<fk_column name="Coin_ID" pk="ID" />
+			</fk>
+			<fk name="fk_tbl_currency" to_schema="Default" to_table="Currency" >
+				<fk_column name="Cur_ID" pk="ID" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_1278" show_relation="columns" >
+		<entity schema="Default" name="Coins" color="C1D8EE" x="48" y="112" />
+		<entity schema="Default" name="Currency" color="C1D8EE" x="192" y="112" />
+		<entity schema="Default" name="Tbl" color="C1D8EE" x="224" y="288" />
+		<callout x="80" y="48" pointer="Round" >
+			<comment><![CDATA[DbSchema is disconnected from the database.
+New designed tables will be saved to project file and later can be create in any database.
+Right-click the layout to create new tables. Drop this callout from its context menu.]]></comment>
+		</callout>
+	</layout>
+</project>
