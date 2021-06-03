@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/stesk/Documents/GitHub/project-3/Crypto.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="3004"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,5:mainCoins"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE Coins ( 
+	ID                   integer NOT NULL  PRIMARY KEY  ,
+	Asset_ID             varchar(6) NOT NULL    ,
+	CONSTRAINT Unq_Coins_Asset_ID UNIQUE ( Asset_ID ) 
+ );
+
+CREATE TABLE Currency ( 
+	ID                   integer NOT NULL  PRIMARY KEY  ,
+	CUR_ID               varchar(6) NOT NULL    
+ );
+
+CREATE TABLE Tbl ( 
+	ID                   integer NOT NULL  PRIMARY KEY  ,
+	Coin_ID              integer NOT NULL    ,
+	Cur_ID               integer NOT NULL    ,
+	time_period_start    datetime     ,
+	time_period_end      datetime     ,
+	time_open            datetime     ,
+	time_close           datetime     ,
+	rate_open            double     ,
+	rate_high            double     ,
+	rate_low             double     ,
+	rate_close           double     ,
+	FOREIGN KEY ( Coin_ID ) REFERENCES Coins( ID )  ,
+	FOREIGN KEY ( Cur_ID ) REFERENCES Currency( ID )  
+ );</sql><current_tab id="0"/></tab_sql></sqlb_project>
