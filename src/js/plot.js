@@ -85,7 +85,8 @@ async function loadDB() {
               autorange: true,
               range: [86.8700008333, 138.870004167],
               type: 'linear'
-            }
+            },
+            grid: {rows: 2, columns: 1, pattern: 'independent'},
           };
           
           Plotly.newPlot('myDiv', data, layout);
