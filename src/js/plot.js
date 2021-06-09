@@ -18,7 +18,7 @@ async function loadDB() {
     
   //  });
    var rows = [];
-   var stmt = db.prepare("SELECT * FROM Tbl");
+   var stmt = db.prepare("SELECT * FROM tbl  where coin_id = 'ETH'");
     
    while(stmt.step()) { //
     var row = stmt.getAsObject();
@@ -30,14 +30,20 @@ async function loadDB() {
     let plotlyData = function () {
         
         function unpack(rows, key) {
-            return rows.map(function(row) { return row[key]; });
+            return rows.map(function(row) {
+              let val =  row[key];
+              if(typeof val === 'number'){
+                val = parseFloat(val).toFixed(4);
+              }
+              return val; });
           }
+          console.log(unpack(rows, 'rate_high'));
         var trace1 = {
             type: "scatter",
             mode: "lines",
             name: 'Rate High',
             x: unpack(rows, 'time_period_start'),
-            y: unpack(rows, 'rate_high'),
+            y: unpack(rows, 'rate_open'),
             line: {color: '#17BECF'}
           }
           
@@ -46,7 +52,7 @@ async function loadDB() {
             mode: "lines",
             name: 'Rate Low',
             x: unpack(rows, 'time_period_start'),
-            y: unpack(rows, 'rate_low'),
+            y: unpack(rows, 'rate_close'),
             line: {color: '#7F7F7F'}
           }
           
@@ -56,7 +62,7 @@ async function loadDB() {
             title: 'Time Series with Rangeslider',
             xaxis: {
               autorange: true,
-              range: ['2015-02-17', '2017-02-16'],
+              range: ['2016-01-01', '2021-06-08'],
               rangeselector: {buttons: [
                   {
                     count: 1,
@@ -72,7 +78,7 @@ async function loadDB() {
                   },
                   {step: 'all'}
                 ]},
-              rangeslider: {range: ['2015-02-17', '2017-02-16']},
+              rangeslider: {range: ['2016-01-01', '2021-06-08']},
               type: 'date'
             },
             yaxis: {
