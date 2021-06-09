@@ -4,6 +4,7 @@ async function loadDB() {
     const sqlPromise = initSqlJs({
         locateFile: (filename, prefix) => {
             console.log(`prefix is : ${prefix}`);
+            console.log(`filename is : ${filename}`);
             return `./dist/${filename}`;
         }
     });
