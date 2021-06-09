@@ -4,7 +4,7 @@ async function loadDB() {
     const sqlPromise = initSqlJs({
         locateFile: (filename, prefix) => {
             console.log(`prefix is : ${prefix}`);
-            return `../dist/${filename}`;
+            return `./dist/${filename}`;
         }
     });
     const dataPromise = fetch("../../crypto_vspr.db").then(res => res.arrayBuffer());
