@@ -11,31 +11,42 @@ async function loadDB() {
     const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
     const db = new SQL.Database(new Uint8Array(buf));
 
-    var rows = db.exec("SELECT * FROM Tbl");
-    console.log("Results", rows)
+  //   var rows = db.exec("SELECT * FROM Tbl");
+  //  rows.forEach(row => {
+    
+  //     console.log("Results",row);
+    
+  //  });
+   var rows = [];
+   var stmt = db.prepare("SELECT * FROM Tbl");
+    
+   while(stmt.step()) { //
+    var row = stmt.getAsObject();
+    //console.log('Here is a row: ' + JSON.stringify(row));
+    rows.push(row);
+  }
 
-
+  
     let plotlyData = function () {
-        // console.log("res", res)
+        
         function unpack(rows, key) {
             return rows.map(function(row) { return row[key]; });
           }
-
         var trace1 = {
             type: "scatter",
             mode: "lines",
-            name: 'AAPL High',
-            x: unpack(rows, 'Date'),
-            y: unpack(rows, 'AAPL.High'),
+            name: 'Rate High',
+            x: unpack(rows, 'time_period_start'),
+            y: unpack(rows, 'rate_high'),
             line: {color: '#17BECF'}
           }
           
           var trace2 = {
             type: "scatter",
             mode: "lines",
-            name: 'AAPL Low',
-            x: unpack(rows, 'Date'),
-            y: unpack(rows, 'AAPL.Low'),
+            name: 'Rate Low',
+            x: unpack(rows, 'time_period_start'),
+            y: unpack(rows, 'rate_low'),
             line: {color: '#7F7F7F'}
           }
           
@@ -78,3 +89,4 @@ async function loadDB() {
 }
 
 loadDB()
+
