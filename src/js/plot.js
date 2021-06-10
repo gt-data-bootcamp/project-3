@@ -8,7 +8,7 @@ async function loadDB() {
             return `./dist/${filename}`;
         }
     });
-    const dataPromise = fetch("../../crypto_vspr.db").then(res => res.arrayBuffer());
+    const dataPromise = fetch("../../Crypto.db").then(res => res.arrayBuffer());
     const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
     const db = new SQL.Database(new Uint8Array(buf));
 
@@ -18,18 +18,25 @@ async function loadDB() {
   //     console.log("Results",row);
     
   //  });
+  function getCoinData(coin,db)
+  {
    var rows = [];
-   var stmt = db.prepare("SELECT * FROM tbl  where coin_id = 'ETH'");
+   var stmt = db.prepare(`SELECT * FROM tbl  where coin_id = '${coin}'`);
     
    while(stmt.step()) { //
     var row = stmt.getAsObject();
     //console.log('Here is a row: ' + JSON.stringify(row));
     rows.push(row);
   }
+  return rows;
+  }
 
   
     let plotlyData = function () {
-        
+
+      const bRows = getCoinData('BTC',db);
+      const eRows = getCoinData('ETH',db);
+      const lRows = getCoinData('LTC',db);  
         function unpack(rows, key) {
             return rows.map(function(row) {
               let val =  row[key];
@@ -38,26 +45,33 @@ async function loadDB() {
               }
               return val; });
           }
-          console.log(unpack(rows, 'rate_high'));
-        var trace1 = {
+          var bitcoin = {
             type: "scatter",
             mode: "lines",
-            name: 'Rate High',
-            x: unpack(rows, 'time_period_start'),
-            y: unpack(rows, 'rate_open'),
+            name: 'Bitcoin',
+            x: unpack(bRows, 'time_period_start'),
+            y: unpack(bRows, 'rate_close'),
             line: {color: '#17BECF'}
-          }
+          };
           
-          var trace2 = {
+          var ethereum = {
             type: "scatter",
             mode: "lines",
-            name: 'Rate Low',
-            x: unpack(rows, 'time_period_start'),
-            y: unpack(rows, 'rate_close'),
-            line: {color: '#7F7F7F'}
-          }
+            name: 'Ethereum',
+            x: unpack(eRows, 'time_period_start'),
+            y: unpack(eRows, 'rate_close'),
+            line: {color: '#36013f'}
+          };
           
-          var data = [trace1,trace2];
+          var litecoin = {
+            type: "scatter",
+            mode: "lines",
+            name: 'LiteCoin',
+            x: unpack(lRows, 'time_period_start'),
+            y: unpack(lRows, 'rate_close'),
+            line: {color: '#7F7F7F'}
+          };
+          var data = [bitcoin,ethereum,litecoin];
           
           var layout = {
             title: 'Time Series with Rangeslider',
@@ -86,11 +100,11 @@ async function loadDB() {
               autorange: true,
               range: [86.8700008333, 138.870004167],
               type: 'linear'
-            },
-            grid: {rows: 2, columns: 1, pattern: 'independent'},
+            }
           };
+          var config = {responsive: true};
           
-          Plotly.newPlot('myDiv', data, layout);
+          Plotly.newPlot('myDiv', data, layout, config);
 
     }
     plotlyData()
