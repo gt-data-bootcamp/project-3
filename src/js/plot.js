@@ -74,10 +74,10 @@ async function loadDB() {
           var data = [bitcoin,ethereum,litecoin];
           
           var layout = {
-            title: 'Time Series with Rangeslider',
+            autosize: true,
             xaxis: {
               autorange: true,
-              range: ['2016-01-01', '2021-06-08'],
+              range: ['2016-02-05', '2021-06-08'],
               rangeselector: {buttons: [
                   {
                     count: 1,
@@ -93,8 +93,8 @@ async function loadDB() {
                   },
                   {step: 'all'}
                 ]},
-              rangeslider: {range: ['2016-01-01', '2021-06-08']},
-              type: 'date'
+                rangeslider: {range: ['2016-02-05', '2021-06-08']},
+                type: 'date'
             },
             yaxis: {
               autorange: true,
@@ -105,10 +105,19 @@ async function loadDB() {
           var config = {responsive: true};
           
           Plotly.newPlot('myDiv', data, layout, config);
+          Plotly.update('myDiv',data,{title:'Top 3 Coins'});
+          Plotly.newPlot('bDiv', [bitcoin], layout, config);
+          Plotly.update('bDiv',[bitcoin],{title:'Bitcoin'});
+          Plotly.newPlot('eDiv', [ethereum], layout, config);
+          Plotly.update('eDiv',[ethereum],{title:'Ethereum'});
+          Plotly.newPlot('lDiv', [litecoin], layout, config);
+          Plotly.update('lDiv',[litecoin],{title:'Litecoin'});
 
     }
     plotlyData()
 }
 
 loadDB()
+
+
 

@@ -1,7 +1,12 @@
 body { 
     margin: 0;
     font-family: 'Playfair Display', serif;
-  }
+}
+
+.section-container {
+    margin: auto; 
+    padding: 20px 20px;
+}
 
 .header-container {
   overflow: hidden;
@@ -12,11 +17,17 @@ body {
 
 .graph-1 {
     width: 50%; 
-    height: 1000vh;
-    float: left;
 }
 
-.blog-posts {
-    float: right;
-    padding-right: 80px;
+.graph-2 {
+    width: 50%; 
+    float: right; 
+}
+
+.graph-3 {
+    width: 50%; 
+}
+
+.graph-4 {
+    width: 50%; 
 }
