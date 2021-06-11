@@ -8,7 +8,7 @@ async function loadDB() {
             return `./js/${filename}`;
         }
     });
-    const dataPromise = fetch("../Crypto.db").then(res => res.arrayBuffer());
+    const dataPromise = fetch("./Crypto.db").then(res => res.arrayBuffer());
     const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
     const db = new SQL.Database(new Uint8Array(buf));
 
