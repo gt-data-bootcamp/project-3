@@ -5,7 +5,7 @@ async function loadDB() {
         locateFile: (filename, prefix) => {
             console.log(`prefix is : ${prefix}`);
             console.log(`filename is : ${filename}`);
-            return `./dist/${filename}`;
+            return `./js/${filename}`;
         }
     });
     const dataPromise = fetch("../../Crypto.db").then(res => res.arrayBuffer());
