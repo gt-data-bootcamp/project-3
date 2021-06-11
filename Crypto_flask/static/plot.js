@@ -5,10 +5,10 @@ async function loadDB() {
         locateFile: (filename, prefix) => {
             console.log(`prefix is : ${prefix}`);
             console.log(`filename is : ${filename}`);
-            return `./dist/${filename}`;
+            return `static/${filename}`;
         }
     });
-    const dataPromise = fetch("../../Crypto.db").then(res => res.arrayBuffer());
+    const dataPromise = fetch("static/Crypto.db").then(res => res.arrayBuffer());
     const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
     const db = new SQL.Database(new Uint8Array(buf));
 
